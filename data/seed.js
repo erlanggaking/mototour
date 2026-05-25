@@ -1,3 +1,4 @@
+require('dotenv').config();
 const db = require('../models/db');
 const bcrypt = require('bcryptjs');
 const slugify = require('slugify');

@@ -2,6 +2,7 @@
 // Safe to re-run anytime — only matches by slug/name/title.
 // Sources: Unsplash CDN (free, hot-linked) + i.pravatar.cc (avatars).
 
+require('dotenv').config();
 const db = require('../models/db');
 
 const UNSPLASH = (id, w = 800) => `https://images.unsplash.com/photo-${id}?w=${w}&q=75&auto=format&fit=crop`;
