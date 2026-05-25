@@ -1,0 +1,35 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-envelope"></i> Contact Messages (<%= contacts.length %>)</h3>
+  </div>
+  <% if (contacts.length === 0) { %>
+    <div class="panel-body" style="text-align:center;color:var(--muted);padding:40px">No messages yet.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>From</th><th>Subject</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% contacts.forEach(c => { %>
+          <tr>
+            <td><strong><%= c.full_name %></strong><br><small style="color:var(--muted)"><%= c.email %></small></td>
+            <td><%= c.subject || '(no subject)' %></td>
+            <td style="font-size:13px;max-width:340px"><%= (c.message || '').slice(0, 100) %><%= (c.message || '').length > 100 ? '...' : '' %></td>
+            <td><%= new Date(c.created_at).toLocaleDateString() %></td>
+            <td><span class="status status-<%= c.status %>"><%= c.status %></span></td>
+            <td>
+              <div class="actions">
+                <a href="/admin/contacts/<%= c.id %>" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i> View</a>
+                <form action="/admin/contacts/<%= c.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete?')">
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1>Search Results</h1>
+    <div class="breadcrumb"><a href="/">Home</a> / Search</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p style="margin-bottom:24px">Showing results for <strong>"<%= q %>"</strong> — <%= tours.length %> tour<%= tours.length === 1 ? '' : 's' %> found.</p>
+    <% if (tours.length === 0) { %>
+      <div class="empty-state"><i class="fas fa-search"></i><h3>No results</h3><p>Try a different search term.</p></div>
+    <% } else { %>
+      <div class="cards-grid">
+        <% tours.forEach(tour => { %>
+          <%- include('../partials/tour-card', { tour }) %>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

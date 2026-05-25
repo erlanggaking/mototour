@@ -1,0 +1,186 @@
+<%- include('../partials/header') %>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1><%= site.hero_title || 'Bali Motorbike Tours' %></h1>
+    <p><%= site.hero_subtitle || 'Ride with Local Experts — Authentic Adventures Across Bali' %></p>
+    <div class="hero-buttons">
+      <a href="/tours" class="btn btn-primary btn-lg">Explore Tours</a>
+      <a href="/contact-us" class="btn btn-outline-white btn-lg">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding-top: 50px; padding-bottom: 50px;">
+  <div class="container">
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-medal"></i>
+        <h3>Local Expert Guides</h3>
+        <p>Born and raised Balinese guides who know every back road on the island.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-motorcycle"></i>
+        <h3>Quality Bikes</h3>
+        <p>A modern fleet of well-maintained Honda, Yamaha, BMW and more.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Safety First</h3>
+        <p>Quality riding gear, regular bike servicing, and certified safety briefings.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-route"></i>
+        <h3>Custom Routes</h3>
+        <p>Pre-built tours or fully customised routes — your adventure, your way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED TOURS -->
+<% if (featuredTours && featuredTours.length) { %>
+<section class="section-soft">
+  <div class="container">
+    <div class="section-title">
+      <h2>Featured <span>Motorbike Tours</span></h2>
+      <p>Hand-picked routes that showcase the best of Bali, from volcano peaks to hidden waterfalls.</p>
+    </div>
+    <div class="cards-grid">
+      <% featuredTours.forEach(tour => { %>
+        <%- include('../partials/tour-card', { tour }) %>
+      <% }) %>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/tours" class="btn btn-secondary btn-lg">View All Tours</a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- CATEGORIES -->
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>Explore By <span>Category</span></h2>
+      <p>From sunrise rides to multi-day adventures — find your perfect Bali experience.</p>
+    </div>
+    <div class="cards-grid">
+      <% categories.slice(0, 8).forEach(c => { %>
+        <a href="/tours/<%= c.slug %>" class="card" style="text-decoration:none">
+          <div class="card-img">
+            <% if (c.image) { %><img src="<%= c.image %>" alt="<%= c.name %>" onerror="this.style.display='none'"><% } %>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title"><%= c.name %></h3>
+            <p class="card-desc"><%= c.description %></p>
+            <div style="color:var(--accent);font-weight:600;font-size:14px"><i class="fas fa-arrow-right"></i> View Tours</div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<!-- BIKES -->
+<% if (bikes && bikes.length) { %>
+<section class="section-soft">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our <span>Bikes</span></h2>
+      <p>Choose the perfect bike for your adventure. Honda, Yamaha, BMW, Triumph and more.</p>
+    </div>
+    <div class="cards-grid">
+      <% bikes.forEach(bike => { %>
+        <div class="card">
+          <div class="card-img">
+            <% if (bike.image) { %><img src="<%= bike.image %>" alt="<%= bike.name %>" onerror="this.style.display='none'"><% } %>
+            <span class="price-tag">$<%= Math.round(bike.daily_rate) %>/day</span>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><%= bike.brand %> · <%= bike.cc %></div>
+            <h3 class="card-title"><a href="/bike/<%= bike.slug %>"><%= bike.name %></a></h3>
+            <div class="card-meta">
+              <span><i class="fas fa-cog"></i><%= bike.type %></span>
+              <span><i class="fas fa-tachometer-alt"></i><%= bike.cc %></span>
+            </div>
+            <div class="card-footer">
+              <a href="/bike/<%= bike.slug %>" class="btn btn-outline btn-sm">Details</a>
+              <a href="/booking" class="btn btn-primary btn-sm">Reserve</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    <div class="text-center mt-4">
+      <a href="/our-bikes" class="btn btn-secondary btn-lg">View All Bikes</a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- TESTIMONIALS -->
+<% if (testimonials && testimonials.length) { %>
+<section>
+  <div class="container">
+    <div class="section-title">
+      <h2>What Our <span>Riders Say</span></h2>
+      <p>Real reviews from real riders who explored Bali with us.</p>
+    </div>
+    <div class="testimonials-grid">
+      <% testimonials.forEach(t => { %>
+        <div class="testimonial-card">
+          <div class="stars">
+            <% for (let i = 0; i < (t.rating || 5); i++) { %><i class="fas fa-star"></i><% } %>
+          </div>
+          <p class="content">"<%= t.content %>"</p>
+          <div class="author"><%= t.name %></div>
+          <% if (t.country) { %><div class="country"><i class="fas fa-globe"></i> <%= t.country %></div><% } %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- BLOG / GUIDES -->
+<% if (posts && posts.length) { %>
+<section class="section-soft">
+  <div class="container">
+    <div class="section-title">
+      <h2>Latest <span>Travel Guides</span></h2>
+      <p>Tips, route guides, and insider knowledge for your Bali ride.</p>
+    </div>
+    <div class="cards-grid">
+      <% posts.forEach(p => { %>
+        <div class="card">
+          <div class="card-img">
+            <% if (p.image) { %><img src="<%= p.image %>" alt="<%= p.title %>" onerror="this.style.display='none'"><% } %>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><i class="far fa-calendar"></i> <%= new Date(p.created_at).toLocaleDateString('en-US', {year:'numeric',month:'short',day:'numeric'}) %></div>
+            <h3 class="card-title"><a href="/blog/<%= p.slug %>"><%= p.title %></a></h3>
+            <p class="card-desc"><%= p.excerpt %></p>
+            <a href="/blog/<%= p.slug %>" class="btn btn-outline btn-sm">Read More</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- CTA -->
+<section style="padding: 40px 0;">
+  <div class="cta-banner">
+    <h2>Ready to Ride?</h2>
+    <p>Get in touch with our team and let's plan your Bali motorbike adventure.</p>
+    <a href="/contact-us" class="btn btn-primary btn-lg">Contact Us Now</a>
+    &nbsp;
+    <a href="/booking" class="btn btn-outline-white btn-lg">Book a Tour</a>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

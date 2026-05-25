@@ -1,0 +1,57 @@
+<%- include('_header') %>
+
+<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px">
+  <div class="panel">
+    <div class="panel-header"><h3><i class="fas fa-user-shield"></i> Admin Users (<%= users.length %>)</h3></div>
+    <table>
+      <thead><tr><th>Username</th><th>Full Name</th><th>Role</th><th>Created</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% users.forEach(u => { %>
+          <tr>
+            <td><strong><%= u.username %></strong></td>
+            <td><%= u.full_name || '—' %></td>
+            <td><%= u.role %></td>
+            <td><%= new Date(u.created_at).toLocaleDateString() %></td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-secondary btn-sm" onclick="showPwForm(<%= u.id %>)"><i class="fas fa-key"></i></button>
+                <% if (u.id !== user.id) { %>
+                  <form action="/admin/users/<%= u.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete user?')">
+                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                <% } %>
+              </div>
+              <form id="pw-form-<%= u.id %>" action="/admin/users/<%= u.id %>/password" method="POST" style="display:none;margin-top:8px">
+                <div style="display:flex;gap:6px">
+                  <input type="password" name="password" class="form-control" placeholder="New password" required>
+                  <button class="btn btn-primary btn-sm">Update</button>
+                </div>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header"><h3><i class="fas fa-user-plus"></i> Add Admin</h3></div>
+    <div class="panel-body">
+      <form action="/admin/users/new" method="POST">
+        <div class="form-group"><label>Username *</label><input type="text" name="username" class="form-control" required></div>
+        <div class="form-group"><label>Full Name</label><input type="text" name="full_name" class="form-control"></div>
+        <div class="form-group"><label>Password *</label><input type="password" name="password" class="form-control" required minlength="6"></div>
+        <button class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Create User</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function showPwForm(id) {
+  const f = document.getElementById('pw-form-' + id);
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+<%- include('_footer') %>

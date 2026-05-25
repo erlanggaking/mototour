@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1>About Us</h1>
+    <div class="breadcrumb"><a href="/">Home</a> / About Us</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div style="max-width:900px;margin:0 auto">
+      <h2 style="text-align:center">Welcome to <span style="color:var(--accent)"><%= site.site_name %></span></h2>
+      <p style="font-size:16.5px;line-height:1.8;text-align:center;color:#374151">
+        <%= site.about_short %>
+      </p>
+    </div>
+
+    <div class="features mt-4" style="margin-top:40px">
+      <div class="feature">
+        <i class="fas fa-flag"></i>
+        <h3>10+ Years Experience</h3>
+        <p>A decade of guiding riders through every corner of Bali.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-users"></i>
+        <h3>1000+ Happy Riders</h3>
+        <p>Riders from over 40 countries have ridden with us.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-award"></i>
+        <h3>Award Winning</h3>
+        <p>Top-rated motorbike tour operator on TripAdvisor and Google.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-handshake"></i>
+        <h3>Locally Owned</h3>
+        <p>100% Balinese owned and operated, supporting local communities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-soft">
+  <div class="container">
+    <div class="tour-detail-grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <h2>Our Story</h2>
+        <p>Founded by passionate Balinese riders, <%= site.site_name %> began with a simple goal: to share the real Bali with adventurous travellers. What started as weekend rides with friends has grown into a full-service motorbike touring company offering everything from sunrise day-trips to multi-week island loops.</p>
+        <p>We believe the best way to experience Bali is on two wheels. From volcano summits and jungle trails to coastal roads and traditional villages, our routes take you far beyond the typical tourist trail.</p>
+      </div>
+      <div>
+        <h2>Why Ride With Us</h2>
+        <ul class="list-check">
+          <li>Local guides who grew up riding these roads</li>
+          <li>Modern, well-maintained fleet of motorbikes</li>
+          <li>Quality riding gear included on every tour</li>
+          <li>Small group sizes for a personalised experience</li>
+          <li>Hand-picked accommodation in beautiful locations</li>
+          <li>Flexible itineraries and custom routes available</li>
+          <li>Comprehensive safety briefings and support vehicle on multi-day tours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-blue">
+  <div class="container text-center">
+    <h2>Ready for an Adventure?</h2>
+    <p style="max-width:600px;margin:14px auto 28px;color:rgba(255,255,255,.85);font-size:16px">
+      Let our team craft an unforgettable Bali motorbike experience for you.
+    </p>
+    <a href="/contact-us" class="btn btn-primary btn-lg">Plan Your Trip</a>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

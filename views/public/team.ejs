@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1>Our Team</h1>
+    <div class="breadcrumb"><a href="/">Home</a> / Our Team</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="text-center" style="max-width:760px;margin:0 auto 40px;color:var(--text-muted);font-size:16px">
+      Meet the local experts who make every Bali adventure unforgettable.
+    </p>
+    <% if (team.length === 0) { %>
+      <div class="empty-state"><i class="fas fa-users"></i><h3>Team coming soon</h3></div>
+    <% } else { %>
+      <div class="team-grid">
+        <% team.forEach(m => { %>
+          <div class="team-card">
+            <div class="photo">
+              <% if (m.image) { %><img src="<%= m.image %>" alt="<%= m.name %>" onerror="this.style.display='none'"><% } %>
+            </div>
+            <div class="info">
+              <h3><%= m.name %></h3>
+              <div class="position"><%= m.position %></div>
+              <p class="bio"><%= m.bio %></p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,36 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-quote-left"></i> Testimonials (<%= items.length %>)</h3>
+    <a href="/admin/testimonials/new" class="btn btn-primary"><i class="fas fa-plus"></i> Add Testimonial</a>
+  </div>
+  <% if (items.length === 0) { %>
+    <div class="panel-body" style="text-align:center;color:var(--muted);padding:40px">No testimonials yet.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Name</th><th>Country</th><th>Rating</th><th>Content</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% items.forEach(t => { %>
+          <tr>
+            <td><strong><%= t.name %></strong></td>
+            <td><%= t.country %></td>
+            <td><span style="color:#fbbf24"><% for (let i = 0; i < t.rating; i++) { %>★<% } %></span></td>
+            <td style="font-size:13px;max-width:400px"><%= (t.content || '').slice(0, 90) %><%= (t.content || '').length > 90 ? '...' : '' %></td>
+            <td><span class="status status-<%= t.status ? 'active' : 'inactive' %>"><%= t.status ? 'Visible' : 'Hidden' %></span></td>
+            <td>
+              <div class="actions">
+                <a href="/admin/testimonials/<%= t.id %>/edit" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
+                <form action="/admin/testimonials/<%= t.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete?')">
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

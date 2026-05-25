@@ -1,0 +1,8 @@
+<%- include('../partials/header') %>
+<section style="padding:100px 20px;text-align:center">
+  <i class="fas fa-exclamation-triangle" style="font-size:60px;color:var(--accent);margin-bottom:20px"></i>
+  <h1>Something Went Wrong</h1>
+  <p style="color:var(--text-muted);max-width:500px;margin:14px auto 24px"><%= message || 'An unexpected error occurred.' %></p>
+  <a href="/" class="btn btn-primary btn-lg">Back to Home</a>
+</section>
+<%- include('../partials/footer') %>

@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner" <% if (post.image) { %>style="background-image: linear-gradient(135deg, rgba(8,44,84,.7), rgba(255,108,0,.5)), url('<%= post.image %>')"<% } %>>
+  <div class="container">
+    <h1><%= post.title %></h1>
+    <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog">Travel Guides</a></div>
+  </div>
+</section>
+
+<section>
+  <div class="container" style="max-width:850px">
+    <div style="color:var(--text-muted);font-size:14px;margin-bottom:20px">
+      <i class="far fa-user"></i> <%= post.author || 'Admin' %>
+      &nbsp;·&nbsp;
+      <i class="far fa-calendar"></i> <%= new Date(post.created_at).toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}) %>
+    </div>
+    <% if (post.image) { %>
+      <img src="<%= post.image %>" alt="<%= post.title %>" style="width:100%;border-radius:var(--radius-lg);margin-bottom:24px" onerror="this.style.display='none'">
+    <% } %>
+    <div style="font-size:16px;line-height:1.85;color:#374151">
+      <%- (post.content || '').split('\n').map(p => `<p>${p}</p>`).join('') %>
+    </div>
+    <% if (post.tags) { %>
+      <div style="margin-top:30px;padding-top:20px;border-top:1px solid var(--border)">
+        <strong>Tags:</strong>
+        <% post.tags.split(',').forEach(t => { %>
+          <span style="display:inline-block;background:var(--bg-blue-soft);color:var(--primary);padding:4px 12px;border-radius:14px;font-size:13px;margin:2px"><%= t.trim() %></span>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (related && related.length) { %>
+      <h2 style="margin-top:50px">Related Articles</h2>
+      <div class="cards-grid">
+        <% related.forEach(p => { %>
+          <div class="card">
+            <div class="card-img">
+              <% if (p.image) { %><img src="<%= p.image %>" alt="<%= p.title %>" onerror="this.style.display='none'"><% } %>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"><a href="/blog/<%= p.slug %>"><%= p.title %></a></h3>
+              <p class="card-desc"><%= p.excerpt %></p>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

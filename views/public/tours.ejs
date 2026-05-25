@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1><%= currentCategory ? currentCategory.name : 'All Motorbike Tours' %></h1>
+    <div class="breadcrumb">
+      <a href="/">Home</a> / <% if (currentCategory) { %><a href="/tours">Tours</a> / <%= currentCategory.name %><% } else { %>All Tours<% } %>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <% if (currentCategory && currentCategory.description) { %>
+      <p class="text-center" style="max-width:760px;margin:0 auto 40px;color:var(--text-muted);font-size:16px">
+        <%= currentCategory.description %>
+      </p>
+    <% } %>
+    <% if (tours.length === 0) { %>
+      <div class="empty-state">
+        <i class="fas fa-motorcycle"></i>
+        <h3>No tours available yet</h3>
+        <p>Check back soon — new adventures are added regularly.</p>
+      </div>
+    <% } else { %>
+      <div class="cards-grid">
+        <% tours.forEach(tour => { %>
+          <%- include('../partials/tour-card', { tour }) %>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

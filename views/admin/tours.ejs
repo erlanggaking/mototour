@@ -1,0 +1,41 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-route"></i> All Tours (<%= tours.length %>)</h3>
+    <a href="/admin/tours/new" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Tour</a>
+  </div>
+  <% if (tours.length === 0) { %>
+    <div class="panel-body" style="text-align:center;color:var(--muted);padding:40px">No tours yet. Click "Add New Tour" to create one.</div>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr><th>Image</th><th>Title</th><th>Category</th><th>Duration</th><th>Price</th><th>Featured</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <% tours.forEach(t => { %>
+          <tr>
+            <td><% if (t.image) { %><img src="<%= t.image %>" class="thumb" onerror="this.style.display='none'"><% } else { %>—<% } %></td>
+            <td><strong><%= t.title %></strong><br><small style="color:var(--muted)">/<%= t.slug %></small></td>
+            <td><%= t.category_name || '—' %></td>
+            <td><%= t.duration_days %> day<%= t.duration_days > 1 ? 's' : '' %></td>
+            <td>$<%= Math.round(t.price) %></td>
+            <td><% if (t.featured) { %><i class="fas fa-star" style="color:#fbbf24"></i><% } else { %>—<% } %></td>
+            <td><span class="status status-<%= t.status ? 'active' : 'inactive' %>"><%= t.status ? 'Active' : 'Hidden' %></span></td>
+            <td>
+              <div class="actions">
+                <a href="/tour/<%= t.slug %>" target="_blank" class="btn btn-outline btn-sm" title="View"><i class="fas fa-eye"></i></a>
+                <a href="/admin/tours/<%= t.id %>/edit" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
+                <form action="/admin/tours/<%= t.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete this tour?')">
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

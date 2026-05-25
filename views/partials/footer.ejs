@@ -1,0 +1,87 @@
+<!-- FLOATING CONTACT -->
+<div class="float-contact">
+  <% if (site.whatsapp) { %><a href="https://wa.me/<%= site.whatsapp.replace(/\D/g,'') %>" target="_blank" class="whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a><% } %>
+  <% if (site.phone) { %><a href="tel:<%= site.phone %>" class="phone" aria-label="Call us"><i class="fas fa-phone"></i></a><% } %>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="brand" style="margin-bottom:16px">
+          <div class="brand-logo">B</div>
+          <div class="brand-text">
+            <strong style="color:#fff"><%= site.site_name %></strong>
+            <span><%= site.site_tagline %></span>
+          </div>
+        </a>
+        <p style="margin-top:14px;color:rgba(255,255,255,.75);font-size:14px">
+          <%= site.about_short || 'Locally owned motorbike tour company offering authentic riding experiences across Bali.' %>
+        </p>
+        <div class="footer-social">
+          <% if (site.facebook) { %><a href="<%= site.facebook %>" target="_blank"><i class="fab fa-facebook-f"></i></a><% } %>
+          <% if (site.instagram) { %><a href="<%= site.instagram %>" target="_blank"><i class="fab fa-instagram"></i></a><% } %>
+          <% if (site.youtube) { %><a href="<%= site.youtube %>" target="_blank"><i class="fab fa-youtube"></i></a><% } %>
+          <% if (site.whatsapp) { %><a href="https://wa.me/<%= site.whatsapp.replace(/\D/g,'') %>" target="_blank"><i class="fab fa-whatsapp"></i></a><% } %>
+        </div>
+      </div>
+      <div>
+        <h4>Tour Categories</h4>
+        <ul>
+          <% categories.slice(0, 7).forEach(c => { %>
+            <li><a href="/tours/<%= c.slug %>"><%= c.name %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/about-us">About Us</a></li>
+          <li><a href="/our-team">Our Team</a></li>
+          <li><a href="/our-bikes">Our Bikes</a></li>
+          <li><a href="/blog">Travel Guides</a></li>
+          <li><a href="/group-tours">Join a Group</a></li>
+          <li><a href="/booking">Book a Tour</a></li>
+          <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get In Touch</h4>
+        <div class="contact-line"><i class="fas fa-map-marker-alt"></i><span><%= site.address %></span></div>
+        <div class="contact-line"><i class="fas fa-phone"></i><a href="tel:<%= site.phone %>"><%= site.phone %></a></div>
+        <div class="contact-line"><i class="fas fa-envelope"></i><a href="mailto:<%= site.email %>"><%= site.email %></a></div>
+        <% if (site.whatsapp) { %>
+          <div class="contact-line"><i class="fab fa-whatsapp"></i><a href="https://wa.me/<%= site.whatsapp.replace(/\D/g,'') %>"><%= site.whatsapp %></a></div>
+        <% } %>
+      </div>
+    </div>
+    <div class="copyright">
+      © <%= new Date().getFullYear() %> <%= site.site_name %>. All rights reserved.
+      &nbsp;·&nbsp; <a href="/admin" style="color:rgba(255,255,255,.5)">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('mainNav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => nav.classList.toggle('open'));
+  }
+  // Tabs
+  document.querySelectorAll('[data-tabs]').forEach(group => {
+    const buttons = group.querySelectorAll('.tab-btn');
+    const panes = group.querySelectorAll('.tab-pane');
+    buttons.forEach(b => b.addEventListener('click', () => {
+      buttons.forEach(x => x.classList.remove('active'));
+      panes.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      const target = group.querySelector(`#${b.dataset.target}`);
+      if (target) target.classList.add('active');
+    }));
+  });
+</script>
+</body>
+</html>

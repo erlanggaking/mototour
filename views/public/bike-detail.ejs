@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner" <% if (bike.image) { %>style="background-image: linear-gradient(135deg, rgba(8,44,84,.7), rgba(255,108,0,.5)), url('<%= bike.image %>')"<% } %>>
+  <div class="container">
+    <h1><%= bike.name %></h1>
+    <div class="breadcrumb"><a href="/">Home</a> / <a href="/our-bikes">Bikes</a> / <%= bike.name %></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="tour-detail-grid">
+      <div>
+        <% if (bike.image) { %>
+          <img src="<%= bike.image %>" alt="<%= bike.name %>" style="width:100%;border-radius:var(--radius-lg);margin-bottom:24px" onerror="this.style.display='none'">
+        <% } %>
+        <h2><%= bike.name %></h2>
+        <p style="font-size:15.5px;line-height:1.75"><%= bike.description %></p>
+        <h3 style="margin-top:30px">Specifications</h3>
+        <table style="width:100%;background:var(--bg-soft);border-radius:8px;overflow:hidden">
+          <% Object.keys(bike.specs || {}).forEach(k => { %>
+            <tr>
+              <td style="padding:12px 18px;font-weight:600;color:var(--primary-dark);width:40%;border-bottom:1px solid var(--border)"><%= k %></td>
+              <td style="padding:12px 18px;border-bottom:1px solid var(--border)"><%= bike.specs[k] %></td>
+            </tr>
+          <% }) %>
+          <tr>
+            <td style="padding:12px 18px;font-weight:600;color:var(--primary-dark)">Daily Rate</td>
+            <td style="padding:12px 18px;color:var(--accent);font-weight:700">$<%= Math.round(bike.daily_rate) %> / day</td>
+          </tr>
+        </table>
+      </div>
+      <aside>
+        <div class="booking-card">
+          <div class="price">$<%= Math.round(bike.daily_rate) %><br><small>per day</small></div>
+          <hr style="margin:18px 0;border:0;border-top:1px solid var(--border)">
+          <h3 style="margin:0 0 14px;text-align:center">Reserve This Bike</h3>
+          <form action="/booking" method="POST">
+            <div class="form-group"><label>Full Name *</label><input type="text" name="full_name" class="form-control" required></div>
+            <div class="form-group"><label>Email *</label><input type="email" name="email" class="form-control" required></div>
+            <div class="form-row">
+              <div class="form-group"><label>Phone</label><input type="tel" name="phone" class="form-control"></div>
+              <div class="form-group"><label>Days</label><input type="number" name="num_people" class="form-control" value="1" min="1"></div>
+            </div>
+            <div class="form-group"><label>Start Date</label><input type="date" name="travel_date" class="form-control"></div>
+            <div class="form-group"><label>Notes</label><textarea name="message" class="form-control" rows="3" placeholder="Reserving <%= bike.name %>..."><%= bike.name %> rental request</textarea></div>
+            <button class="btn btn-primary btn-block btn-lg">Send Reservation</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= title %> | <%= site.site_name %></title>
+<meta name="description" content="<%= site.site_tagline || 'Bali motorbike tours with local experts.' %>">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-info">
+      <span><i class="fas fa-phone"></i><a href="tel:<%= site.phone %>"><%= site.phone %></a></span>
+      <span><i class="fas fa-envelope"></i><a href="mailto:<%= site.email %>"><%= site.email %></a></span>
+      <span class="d-none-mobile"><i class="fas fa-map-marker-alt"></i><%= site.address || 'Ubud, Bali' %></span>
+    </div>
+    <div class="topbar-social">
+      <% if (site.facebook) { %><a href="<%= site.facebook %>" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><% } %>
+      <% if (site.instagram) { %><a href="<%= site.instagram %>" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a><% } %>
+      <% if (site.youtube) { %><a href="<%= site.youtube %>" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a><% } %>
+      <% if (site.whatsapp) { %><a href="https://wa.me/<%= site.whatsapp.replace(/\D/g,'') %>" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a><% } %>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">
+      <div class="brand-logo">B</div>
+      <div class="brand-text">
+        <strong>Bali Adventure</strong>
+        <span>Moto Tours</span>
+      </div>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li class="<%= currentPath === '/' ? 'active' : '' %>"><a href="/">Home</a></li>
+        <li class="has-dropdown <%= currentPath.startsWith('/tours') || currentPath.startsWith('/tour/') ? 'active' : '' %>">
+          <a href="/tours">Motorbike Tours</a>
+          <ul class="dropdown-menu">
+            <li><a href="/tours"><i class="fas fa-list" style="margin-right:8px;color:var(--accent)"></i> All Tours</a></li>
+            <% categories.forEach(c => { %>
+              <% if (c.slug !== 'big-bike-tours') { %>
+                <li><a href="/tours/<%= c.slug %>"><i class="fas fa-chevron-right" style="margin-right:8px;color:var(--accent);font-size:11px"></i> <%= c.name %></a></li>
+              <% } %>
+            <% }) %>
+          </ul>
+        </li>
+        <li class="<%= currentPath === '/big-bike-tours' ? 'active' : '' %>"><a href="/big-bike-tours">Big Bike Tours</a></li>
+        <li class="<%= currentPath === '/group-tours' ? 'active' : '' %>"><a href="/group-tours">Join a Group</a></li>
+        <li class="has-dropdown <%= currentPath.startsWith('/our-bikes') || currentPath.startsWith('/bike/') ? 'active' : '' %>">
+          <a href="/our-bikes">Our Bikes</a>
+          <ul class="dropdown-menu">
+            <li><a href="/our-bikes"><i class="fas fa-motorcycle" style="margin-right:8px;color:var(--accent)"></i> All Bikes</a></li>
+            <% bikesNav.forEach(b => { %>
+              <li><a href="/bike/<%= b.slug %>"><i class="fas fa-chevron-right" style="margin-right:8px;color:var(--accent);font-size:11px"></i> <%= b.name %></a></li>
+            <% }) %>
+          </ul>
+        </li>
+        <li class="<%= currentPath.startsWith('/blog') ? 'active' : '' %>"><a href="/blog">Travel Guides</a></li>
+        <li class="<%= currentPath === '/about-us' ? 'active' : '' %>"><a href="/about-us">About</a></li>
+        <li class="<%= currentPath === '/our-team' ? 'active' : '' %>"><a href="/our-team">Team</a></li>
+        <li><a href="/contact-us" class="btn btn-primary btn-sm" style="margin-left:8px">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

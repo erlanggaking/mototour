@@ -1,0 +1,29 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-<%= member ? 'edit' : 'plus' %>"></i> <%= member ? 'Edit Member' : 'New Member' %></h3>
+    <a href="/admin/team" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+  </div>
+  <div class="panel-body">
+    <form action="<%= member ? '/admin/team/' + member.id + '/edit' : '/admin/team/new' %>" method="POST" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group"><label>Name *</label><input type="text" name="name" class="form-control" value="<%= member ? member.name : '' %>" required></div>
+        <div class="form-group"><label>Position</label><input type="text" name="position" class="form-control" value="<%= member ? member.position : '' %>"></div>
+      </div>
+      <div class="form-group"><label>Bio</label><textarea name="bio" class="form-control" rows="4"><%= member ? member.bio : '' %></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Sort Order</label><input type="number" name="sort_order" class="form-control" value="<%= member ? member.sort_order : 0 %>"></div>
+        <div class="form-group">
+          <label>Photo</label>
+          <input type="file" name="image" class="form-control" accept="image/*">
+          <% if (member && member.image) { %><div class="form-help"><img src="<%= member.image %>" style="max-width:120px;border-radius:50%;margin-top:6px"></div><% } %>
+        </div>
+      </div>
+      <button class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+      <a href="/admin/team" class="btn btn-outline">Cancel</a>
+    </form>
+  </div>
+</div>
+
+<%- include('_footer') %>

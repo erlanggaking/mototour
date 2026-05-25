@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1>Our Bikes</h1>
+    <div class="breadcrumb"><a href="/">Home</a> / Our Bikes</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="text-center" style="max-width:760px;margin:0 auto 40px;color:var(--text-muted);font-size:16px">
+      A modern, well-maintained fleet of motorbikes serviced before every tour. Choose what fits your style.
+    </p>
+    <div class="cards-grid">
+      <% bikes.forEach(bike => { %>
+        <div class="card">
+          <div class="card-img">
+            <% if (bike.image) { %><img src="<%= bike.image %>" alt="<%= bike.name %>" onerror="this.style.display='none'"><% } %>
+            <span class="price-tag">$<%= Math.round(bike.daily_rate) %>/day</span>
+          </div>
+          <div class="card-body">
+            <div class="card-cat"><%= bike.brand %> · <%= bike.cc %></div>
+            <h3 class="card-title"><a href="/bike/<%= bike.slug %>"><%= bike.name %></a></h3>
+            <div class="card-meta">
+              <span><i class="fas fa-cog"></i><%= bike.type %></span>
+              <span><i class="fas fa-tachometer-alt"></i><%= bike.cc %></span>
+            </div>
+            <p class="card-desc"><%= bike.description %></p>
+            <div class="card-footer">
+              <a href="/bike/<%= bike.slug %>" class="btn btn-outline btn-sm">View Details</a>
+              <a href="/booking" class="btn btn-primary btn-sm">Reserve</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

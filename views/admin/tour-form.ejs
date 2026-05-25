@@ -1,0 +1,153 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-<%= tour ? 'edit' : 'plus' %>"></i> <%= tour ? 'Edit Tour' : 'New Tour' %></h3>
+    <a href="/admin/tours" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+  </div>
+  <div class="panel-body">
+    <form action="<%= tour ? '/admin/tours/' + tour.id + '/edit' : '/admin/tours/new' %>" method="POST" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group" style="grid-column: 1 / span 2">
+          <label>Title *</label>
+          <input type="text" name="title" class="form-control" value="<%= tour ? tour.title : '' %>" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category_id" class="form-control">
+            <option value="">— None —</option>
+            <% categories.forEach(c => { %>
+              <option value="<%= c.id %>" <%= tour && tour.category_id == c.id ? 'selected' : '' %>><%= c.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration (days)</label>
+          <input type="number" name="duration_days" class="form-control" value="<%= tour ? tour.duration_days : 1 %>" min="1">
+        </div>
+      </div>
+
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Price (USD)</label>
+          <input type="number" step="0.01" name="price" class="form-control" value="<%= tour ? tour.price : 0 %>">
+        </div>
+        <div class="form-group">
+          <label>Difficulty</label>
+          <select name="difficulty" class="form-control">
+            <% ['', 'Easy', 'Intermediate', 'Advanced', 'Expert'].forEach(d => { %>
+              <option value="<%= d %>" <%= tour && tour.difficulty === d ? 'selected' : '' %>><%= d || '— Select —' %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Group Size</label>
+          <input type="text" name="group_size" class="form-control" value="<%= tour ? tour.group_size : '' %>" placeholder="e.g. 2-6 riders">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Location</label>
+          <input type="text" name="start_location" class="form-control" value="<%= tour ? tour.start_location : '' %>">
+        </div>
+        <div class="form-group">
+          <label>End Location</label>
+          <input type="text" name="end_location" class="form-control" value="<%= tour ? tour.end_location : '' %>">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Short Description</label>
+        <textarea name="short_description" class="form-control" rows="2"><%= tour ? tour.short_description : '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Full Description</label>
+        <textarea name="description" class="form-control" rows="6"><%= tour ? tour.description : '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Image (cover)</label>
+        <input type="file" name="image" class="form-control" accept="image/*">
+        <% if (tour && tour.image) { %>
+          <div class="form-help">Current: <img src="<%= tour.image %>" style="max-width:120px;border-radius:5px;margin-top:6px"></div>
+        <% } %>
+      </div>
+
+      <hr>
+      <h3 style="font-size:16px">Itinerary</h3>
+      <div id="itinerary-list">
+        <% (tour && tour.itinerary || []).forEach((d, i) => { %>
+          <div class="itinerary-row">
+            <input type="number" name="itinerary_day[]" class="form-control" value="<%= d.day || (i+1) %>">
+            <div class="stack">
+              <input type="text" name="itinerary_title[]" class="form-control" placeholder="Day title" value="<%= d.title || '' %>">
+              <textarea name="itinerary_desc[]" class="form-control" rows="2" placeholder="Day description"><%= d.description || '' %></textarea>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+          </div>
+        <% }) %>
+      </div>
+      <button type="button" class="btn btn-outline btn-sm" onclick="addItineraryDay()"><i class="fas fa-plus"></i> Add Day</button>
+
+      <hr>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Inclusions (one per line)</label>
+          <textarea name="inclusions" class="form-control" rows="6"><%= tour && tour.inclusions ? tour.inclusions.join('\n') : '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label>Exclusions (one per line)</label>
+          <textarea name="exclusions" class="form-control" rows="6"><%= tour && tour.exclusions ? tour.exclusions.join('\n') : '' %></textarea>
+        </div>
+      </div>
+
+      <hr>
+      <div class="form-row-3">
+        <div class="form-group checkbox-row">
+          <input type="checkbox" id="featured" name="featured" value="1" <%= tour && tour.featured ? 'checked' : '' %>>
+          <label for="featured" style="margin-bottom:0">Featured on homepage</label>
+        </div>
+        <div class="form-group checkbox-row">
+          <input type="checkbox" id="is_group_tour" name="is_group_tour" value="1" <%= tour && tour.is_group_tour ? 'checked' : '' %>>
+          <label for="is_group_tour" style="margin-bottom:0">Group tour (fixed date)</label>
+        </div>
+        <div class="form-group checkbox-row">
+          <input type="checkbox" id="status" name="status" value="1" <%= !tour || tour.status ? 'checked' : '' %>>
+          <label for="status" style="margin-bottom:0">Active (visible)</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Group Tour Date (if applicable)</label>
+        <input type="date" name="group_date" class="form-control" value="<%= tour ? tour.group_date : '' %>">
+      </div>
+
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Tour</button>
+      <a href="/admin/tours" class="btn btn-outline">Cancel</a>
+    </form>
+  </div>
+</div>
+
+<script>
+function addItineraryDay() {
+  const list = document.getElementById('itinerary-list');
+  const idx = list.children.length + 1;
+  const row = document.createElement('div');
+  row.className = 'itinerary-row';
+  row.innerHTML = `
+    <input type="number" name="itinerary_day[]" class="form-control" value="${idx}">
+    <div class="stack">
+      <input type="text" name="itinerary_title[]" class="form-control" placeholder="Day title">
+      <textarea name="itinerary_desc[]" class="form-control" rows="2" placeholder="Day description"></textarea>
+    </div>
+    <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>`;
+  list.appendChild(row);
+}
+</script>
+
+<%- include('_footer') %>

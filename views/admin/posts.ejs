@@ -1,0 +1,37 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-newspaper"></i> Travel Guides (<%= posts.length %>)</h3>
+    <a href="/admin/posts/new" class="btn btn-primary"><i class="fas fa-plus"></i> Add Post</a>
+  </div>
+  <% if (posts.length === 0) { %>
+    <div class="panel-body" style="text-align:center;color:var(--muted);padding:40px">No posts yet.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Image</th><th>Title</th><th>Author</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% posts.forEach(p => { %>
+          <tr>
+            <td><% if (p.image) { %><img src="<%= p.image %>" class="thumb" onerror="this.style.display='none'"><% } else { %>—<% } %></td>
+            <td><strong><%= p.title %></strong><br><small style="color:var(--muted)">/<%= p.slug %></small></td>
+            <td><%= p.author %></td>
+            <td><%= new Date(p.created_at).toLocaleDateString() %></td>
+            <td><span class="status status-<%= p.status ? 'active' : 'inactive' %>"><%= p.status ? 'Published' : 'Draft' %></span></td>
+            <td>
+              <div class="actions">
+                <a href="/blog/<%= p.slug %>" target="_blank" class="btn btn-outline btn-sm"><i class="fas fa-eye"></i></a>
+                <a href="/admin/posts/<%= p.id %>/edit" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
+                <form action="/admin/posts/<%= p.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete this post?')">
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

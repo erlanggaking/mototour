@@ -1,0 +1,181 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner" <% if (tour.image) { %>style="background-image: linear-gradient(135deg, rgba(8,44,84,.7), rgba(255,108,0,.5)), url('<%= tour.image %>')"<% } %>>
+  <div class="container">
+    <h1><%= tour.title %></h1>
+    <div class="breadcrumb">
+      <a href="/">Home</a> / <a href="/tours">Tours</a>
+      <% if (tour.category_slug) { %> / <a href="/tours/<%= tour.category_slug %>"><%= tour.category_name %></a><% } %>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="tour-detail-grid">
+      <!-- MAIN -->
+      <div>
+        <!-- info bar -->
+        <div class="tour-info-bar">
+          <% if (tour.duration_days) { %>
+            <div class="info-item">
+              <i class="far fa-clock"></i>
+              <div class="label">Duration</div>
+              <div class="value"><%= tour.duration_days %> day<%= tour.duration_days > 1 ? 's' : '' %></div>
+            </div>
+          <% } %>
+          <% if (tour.difficulty) { %>
+            <div class="info-item">
+              <i class="fas fa-mountain"></i>
+              <div class="label">Difficulty</div>
+              <div class="value"><%= tour.difficulty %></div>
+            </div>
+          <% } %>
+          <% if (tour.group_size) { %>
+            <div class="info-item">
+              <i class="fas fa-users"></i>
+              <div class="label">Group Size</div>
+              <div class="value"><%= tour.group_size %></div>
+            </div>
+          <% } %>
+          <% if (tour.start_location) { %>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div class="label">Starts</div>
+              <div class="value"><%= tour.start_location %></div>
+            </div>
+          <% } %>
+          <% if (tour.end_location) { %>
+            <div class="info-item">
+              <i class="fas fa-flag-checkered"></i>
+              <div class="label">Ends</div>
+              <div class="value"><%= tour.end_location %></div>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- tabs -->
+        <div data-tabs>
+          <div class="tabs">
+            <button class="tab-btn active" data-target="tab-overview">Overview</button>
+            <% if (tour.itinerary && tour.itinerary.length) { %>
+              <button class="tab-btn" data-target="tab-itinerary">Itinerary</button>
+            <% } %>
+            <% if (tour.inclusions && tour.inclusions.length) { %>
+              <button class="tab-btn" data-target="tab-inclusions">Inclusions</button>
+            <% } %>
+            <button class="tab-btn" data-target="tab-faq">FAQ</button>
+          </div>
+
+          <div class="tab-pane active" id="tab-overview">
+            <h2 style="margin-top:0">Tour Overview</h2>
+            <p style="font-size:15.5px;line-height:1.75"><%= tour.description %></p>
+            <% if (tour.gallery && tour.gallery.length > 1) { %>
+              <h3 style="margin-top:30px">Gallery</h3>
+              <div class="gallery-grid">
+                <% tour.gallery.forEach(img => { %>
+                  <% if (img) { %><img src="<%= img %>" alt="" onerror="this.style.display='none'"><% } %>
+                <% }) %>
+              </div>
+            <% } %>
+          </div>
+
+          <% if (tour.itinerary && tour.itinerary.length) { %>
+            <div class="tab-pane" id="tab-itinerary">
+              <h2 style="margin-top:0">Day-by-Day Itinerary</h2>
+              <% tour.itinerary.forEach(d => { %>
+                <div class="itinerary-day">
+                  <h4>Day <%= d.day %>: <%= d.title %></h4>
+                  <p><%= d.description %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+
+          <% if (tour.inclusions && tour.inclusions.length) { %>
+            <div class="tab-pane" id="tab-inclusions">
+              <h2 style="margin-top:0">What's Included</h2>
+              <ul class="list-check">
+                <% tour.inclusions.forEach(i => { %><li><%= i %></li><% }) %>
+              </ul>
+              <% if (tour.exclusions && tour.exclusions.length) { %>
+                <h3 style="margin-top:30px">Not Included</h3>
+                <ul class="list-check list-cross">
+                  <% tour.exclusions.forEach(i => { %><li><%= i %></li><% }) %>
+                </ul>
+              <% } %>
+            </div>
+          <% } %>
+
+          <div class="tab-pane" id="tab-faq">
+            <h2 style="margin-top:0">Frequently Asked Questions</h2>
+            <h4>Do I need a motorcycle license?</h4>
+            <p>Yes, an international motorcycle license is required by law in Indonesia. We recommend an IDP endorsed for motorcycles.</p>
+            <h4>What experience level is required?</h4>
+            <p>This tour is rated <strong><%= tour.difficulty || 'Intermediate' %></strong>. We can usually adapt routes for different skill levels — contact us for advice.</p>
+            <h4>What is your cancellation policy?</h4>
+            <p>Free cancellation up to 14 days before departure. After that, a 30% cancellation fee applies.</p>
+            <h4>Is travel insurance included?</h4>
+            <p>No — we strongly recommend getting your own travel insurance that covers motorcycle riding.</p>
+          </div>
+        </div>
+
+        <!-- related -->
+        <% if (related && related.length) { %>
+          <h2 style="margin-top:50px">You Might Also Like</h2>
+          <div class="cards-grid">
+            <% related.forEach(t => { %>
+              <%- include('../partials/tour-card', { tour: t }) %>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside>
+        <div class="booking-card">
+          <% if (tour.price) { %>
+            <div class="price">$<%= Math.round(tour.price) %><br><small>per person, from</small></div>
+          <% } %>
+          <hr style="margin:18px 0;border:0;border-top:1px solid var(--border)">
+          <h3 style="margin:0 0 14px;text-align:center">Book This Tour</h3>
+          <form action="/booking" method="POST">
+            <input type="hidden" name="tour_id" value="<%= tour.id %>">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="full_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" name="phone" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>People</label>
+                <input type="number" name="num_people" class="form-control" value="1" min="1">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Travel Date</label>
+              <input type="date" name="travel_date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea name="message" class="form-control" rows="3" placeholder="Any special requests?"></textarea>
+            </div>
+            <button class="btn btn-primary btn-block btn-lg">Send Booking Request</button>
+          </form>
+          <p style="text-align:center;margin-top:14px;font-size:12.5px;color:var(--text-muted)">
+            <i class="fas fa-lock"></i> No payment required to enquire
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

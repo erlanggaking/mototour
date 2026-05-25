@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<section class="page-banner">
+  <div class="container">
+    <h1>Join a Group Tour</h1>
+    <div class="breadcrumb"><a href="/">Home</a> / Group Tours</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="text-center" style="max-width:760px;margin:0 auto 40px;color:var(--text-muted);font-size:16px">
+      Perfect for solo riders. Join a fixed-date group tour and share the adventure with riders from around the world.
+    </p>
+    <% if (tours.length === 0) { %>
+      <div class="empty-state"><i class="far fa-calendar"></i><h3>No group tours scheduled</h3><p>Contact us to be notified of upcoming dates.</p></div>
+    <% } else { %>
+      <div class="cards-grid">
+        <% tours.forEach(tour => { %>
+          <div class="card">
+            <div class="card-img">
+              <% if (tour.image) { %><img src="<%= tour.image %>" alt="<%= tour.title %>" onerror="this.style.display='none'"><% } %>
+              <% if (tour.group_date) { %>
+                <span class="badge"><i class="far fa-calendar"></i> <%= new Date(tour.group_date).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) %></span>
+              <% } %>
+              <% if (tour.price) { %><span class="price-tag">$<%= Math.round(tour.price) %></span><% } %>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"><a href="/tour/<%= tour.slug %>"><%= tour.title %></a></h3>
+              <div class="card-meta">
+                <span><i class="far fa-clock"></i><%= tour.duration_days %> days</span>
+                <span><i class="fas fa-users"></i><%= tour.group_size %></span>
+              </div>
+              <p class="card-desc"><%= tour.short_description %></p>
+              <div class="card-footer">
+                <a href="/tour/<%= tour.slug %>" class="btn btn-outline btn-sm">Details</a>
+                <a href="/booking?tour=<%= tour.id %>" class="btn btn-primary btn-sm">Reserve Spot</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

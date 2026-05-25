@@ -1,0 +1,35 @@
+<%- include('_header') %>
+
+<div class="panel">
+  <div class="panel-header">
+    <h3><i class="fas fa-users"></i> Team Members (<%= team.length %>)</h3>
+    <a href="/admin/team/new" class="btn btn-primary"><i class="fas fa-plus"></i> Add Member</a>
+  </div>
+  <% if (team.length === 0) { %>
+    <div class="panel-body" style="text-align:center;color:var(--muted);padding:40px">No team members yet.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Photo</th><th>Name</th><th>Position</th><th>Order</th><th>Actions</th></tr></thead>
+      <tbody>
+        <% team.forEach(m => { %>
+          <tr>
+            <td><% if (m.image) { %><img src="<%= m.image %>" class="thumb" onerror="this.style.display='none'"><% } else { %>—<% } %></td>
+            <td><strong><%= m.name %></strong></td>
+            <td><%= m.position %></td>
+            <td><%= m.sort_order %></td>
+            <td>
+              <div class="actions">
+                <a href="/admin/team/<%= m.id %>/edit" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
+                <form action="/admin/team/<%= m.id %>/delete" method="POST" style="display:inline" onsubmit="return confirm('Delete this member?')">
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('_footer') %>

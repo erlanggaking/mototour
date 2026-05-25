@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-img">
+    <% if (tour.image) { %>
+      <img src="<%= tour.image %>" alt="<%= tour.title %>" loading="lazy" onerror="this.style.display='none'">
+    <% } %>
+    <% if (tour.category_name) { %><span class="badge"><%= tour.category_name %></span><% } %>
+    <% if (tour.price) { %><span class="price-tag">From $<%= Math.round(tour.price) %></span><% } %>
+  </div>
+  <div class="card-body">
+    <% if (tour.category_name) { %><div class="card-cat"><%= tour.category_name %></div><% } %>
+    <h3 class="card-title"><a href="/tour/<%= tour.slug %>"><%= tour.title %></a></h3>
+    <div class="card-meta">
+      <% if (tour.duration_days) { %><span><i class="far fa-clock"></i><%= tour.duration_days %> day<%= tour.duration_days > 1 ? 's' : '' %></span><% } %>
+      <% if (tour.difficulty) { %><span><i class="fas fa-mountain"></i><%= tour.difficulty %></span><% } %>
+      <% if (tour.group_size) { %><span><i class="fas fa-users"></i><%= tour.group_size %></span><% } %>
+    </div>
+    <p class="card-desc"><%= tour.short_description %></p>
+    <div class="card-footer">
+      <a href="/tour/<%= tour.slug %>" class="btn btn-outline btn-sm">View Details</a>
+      <a href="/booking?tour=<%= tour.id %>" class="btn btn-primary btn-sm">Book Now</a>
+    </div>
+  </div>
+</div>
